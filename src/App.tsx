@@ -5,6 +5,7 @@ import {BrowserRouter as Router, Switch} from 'react-router-dom';
 import { Login } from './pages/Account';
 import { Admin } from './pages/Admin/Admin';
 import { PrivateRoute } from './components';
+import { AccountRoute } from './components/AccountRoute';
 
 
 function App() {
@@ -12,6 +13,9 @@ function App() {
     <div id="wrapper" className='App'>
       <Router>
         <Switch>
+          <AccountRoute>
+            <Login />
+          </AccountRoute>
           <PrivateRoute>
             <Admin />
           </PrivateRoute>
