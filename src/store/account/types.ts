@@ -1,15 +1,12 @@
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAILURE = 'LOGIN_FAILURE';
-
 export const LOG_OUT = 'LOG_OUT';
 
 export interface AuthenticatedUser {
-  _id: string;
-  first_name: string;
-  last_name: string;
+  id: number;
   email: string;
-  avatar: string;
+  access_token: string;
 }
 
 interface LoginRequest {
@@ -23,15 +20,22 @@ interface LoginRequest {
 interface LoginSuccess {
   type: typeof LOGIN_SUCCESS;
   payload: {
-    token: string;
+    status: string,
+    data: {
+      id: number,
+      access_token: string,
+      email: string
+    }
   };
 }
 
 interface LoginFailure {
   type: typeof LOGIN_FAILURE;
   payload: {
-    error: string;
+    status: 'error',
+    message: string
   };
+  // payload: any;
 }
 
 interface Logout {

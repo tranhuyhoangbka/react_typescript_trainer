@@ -14,10 +14,10 @@ const accountReducer = (
       return {...state, loading: true}
     }
     case LOGIN_SUCCESS: {
-      return {...state, loading: false, token: action.payload.token}
+      return {...state, loading: false, token: action.payload.data.access_token, user: action.payload.data}
     }
     case LOGIN_FAILURE: {
-      return {...state, loading: false, token: null, error: action.payload.error}
+      return {...state, loading: false, token: null, error: action.payload.message}
     }
     case LOG_OUT: {
       return {...state, user: null, token: null, error: null}
