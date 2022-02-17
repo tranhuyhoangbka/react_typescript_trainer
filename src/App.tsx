@@ -13,10 +13,10 @@ function App() {
     <div id="wrapper" className='App'>
       <Router>
         <Switch>
-          <AccountRoute>
+          <AccountRoute path='/login'>
             <Login />
           </AccountRoute>
-          <PrivateRoute>
+          <PrivateRoute path='/'>
             <Admin />
           </PrivateRoute>
         </Switch>
