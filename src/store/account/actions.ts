@@ -1,10 +1,10 @@
 import { Dispatch } from "react"
-import { AccountActionTypes, LOGIN_FAILURE, LOGIN_REQUEST, LOGIN_SUCCESS, LOG_OUT } from "./types"
+import { AccountActionTypes, LOAD_CURRENT_LOGIN_USER_FAILURE, LOAD_CURRENT_LOGIN_USER_REQUEST, LOAD_CURRENT_LOGIN_USER_SUCCESS, LOGIN_FAILURE, LOGIN_REQUEST, LOGIN_SUCCESS, LOG_OUT } from "./types"
 import { userService } from '../../services/user.service';
 import { history } from "../../helpers";
 
 export const login = (email: string, password: string, from: string) => {
-  return (dispatch: Dispatch<AccountActionTypes>) => {
+  return async (dispatch: Dispatch<AccountActionTypes>) => {
     dispatch({
       type: LOGIN_REQUEST,
       payload: {
@@ -13,22 +13,44 @@ export const login = (email: string, password: string, from: string) => {
       },
     });
 
-    userService.login(email, password).then((res) => {
+    try {
+      const response = await userService.login(email, password);
+      
       dispatch({
         type: LOGIN_SUCCESS,
-        payload: res,
+        payload: response  
       });
       history.push(from);
-    }, (error) => {
-      console.log('error', error);
+    } catch (error: any) {
       dispatch({
         type: LOGIN_FAILURE,
         payload: {status: 'error', message: error.toString()}
       });
-    });
+    }
   }
 }
 
 export const logout = (): AccountActionTypes => {
   return {type: LOG_OUT};
+}
+
+export const getCurrentLoginUser = () => {
+  return async (dispatch: Dispatch<AccountActionTypes>) => {
+    dispatch({
+      type: LOAD_CURRENT_LOGIN_USER_REQUEST
+    });
+    try {
+      const response = await userService.getCurrentLoginUser();
+      console.log('response get user', response.data);
+      dispatch({
+        type: LOAD_CURRENT_LOGIN_USER_SUCCESS,
+        payload: {user: response.data}
+      })
+    } catch (error: any) {
+      dispatch({
+        type: LOAD_CURRENT_LOGIN_USER_FAILURE,
+        payload: {error: error.toString()}
+      });
+    }
+  }
 }

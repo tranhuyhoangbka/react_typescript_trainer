@@ -3,6 +3,7 @@ import { applyMiddleware, combineReducers, createStore, compose } from "redux";
 import { persistStore, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 import { accountReducer } from "./account/reducer";
+import { setAuthToken } from '../helpers';
 
 const persistConfig = {
   key: 'root',
@@ -31,7 +32,19 @@ function configureStore() {
   return createStore(persistedReducer, composeEnhancers(middlewareEnhancer));
 }
 
-let store = configureStore();
-let persistor = persistStore(store);
+const store = configureStore();
+const persistor = persistStore(store);
+
+let currentState = store.getState() as AppState;
+store.subscribe(() => {
+  let previousState = currentState;
+  currentState = store.getState() as AppState;
+  if(previousState.account.token !== currentState.account.token) {
+    const token = currentState.account.token;
+    if(token) {
+      setAuthToken(token);
+    }
+  }
+});
 
 export {store, persistor};
