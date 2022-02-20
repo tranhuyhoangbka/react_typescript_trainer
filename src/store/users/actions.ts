@@ -6,7 +6,7 @@ import { Dispatch } from 'redux';
 import { userService } from '../../services';
 
 export const loadUsersPaging = (
-  currentPage: number
+  keyword: string | null, currentPage: number
 ) => {
   return async (dispatch: Dispatch<UsersActionTypes>) => {
     try {
@@ -14,7 +14,7 @@ export const loadUsersPaging = (
         type: LOAD_USERS_PAGING_REQUEST
       });
 
-      const res = await userService.getUsersPaging(currentPage);
+      const res = await userService.getUsersPaging(keyword, currentPage);
       dispatch({
         type: LOAD_USERS_PAGING_SUCCESS,
         payload: res

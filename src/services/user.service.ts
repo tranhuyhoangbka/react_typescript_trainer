@@ -19,8 +19,8 @@ const getCurrentLoginUser = async (): Promise<any> => {
   });
 }
 
-const getUsersPaging = async (currentPage: number): Promise<IPagination<IUser>> => {
-  const res = await api.get<IPagination<IUser>>(`/users/?page=${currentPage}`)
+const getUsersPaging = async (keyword: string | null, currentPage: number): Promise<IPagination<IUser>> => {
+  const res = await api.get<IPagination<IUser>>(`/users/?page=${currentPage}&keyword=${keyword}`)
     .then((response) => {
       return response.data;
     });
