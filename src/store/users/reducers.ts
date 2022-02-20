@@ -10,6 +10,7 @@ const initialState: UsersState = {
   items: [],
   page: 1,
   total: 0,
+  pageSize: 10,
   loading: false,
   error: null,  
 }
@@ -23,7 +24,9 @@ const usersReducer = (
       return {...state, loading: true}
     }
     case LOAD_USERS_PAGING_SUCCESS: {
-      return {...state, loading: false, error: null, items: action.payload.data.items, page: action.payload.data.page, total: action.payload.data.total}
+      return {...state, loading: false, error: null, 
+        items: action.payload.data.items, page: action.payload.data.page, 
+        total: action.payload.data.total, pageSize: action.payload.data.page_size}
     }
     case LOAD_USERS_PAGING_FAILURE: {
       return {...state, loading: false, error: action.payload.error}

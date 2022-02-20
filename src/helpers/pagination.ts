@@ -3,7 +3,7 @@ export interface IPagination<T> {
   data: {
     total: number;
     page: number;
-    pageSize: number;
+    page_size: number;
     items: T[];
   }
 }
