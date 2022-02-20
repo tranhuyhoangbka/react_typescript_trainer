@@ -6,6 +6,7 @@ import { Login } from './pages/Account';
 import { Admin } from './pages/Admin/Users/Admin';
 import { PrivateRoute } from './components';
 import { AccountRoute } from './components/AccountRoute';
+import './assets/font-awesome/css/all.min.css';
 
 
 function App() {

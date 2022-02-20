@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from '../../../store';
 import { loadUsersPaging } from '../../../store/users/actions';
 import { Pagination } from '../../../components';
+import { Link } from 'react-router-dom';
+import { UrlConstants } from '../../../constants/url-constants';
 
 export const Users = () => {
   const users: IUser[] = useSelector((state: AppState) => state.users.items);
@@ -111,6 +113,9 @@ export const Users = () => {
             >
               Tìm kiếm
             </button>
+            <Link to={UrlConstants.USER_ADD} className="btn btn-outline-success btn-sm">
+              <span className='fa fa-plus'>Them moi</span>
+            </Link>
           </div>
           <div className="card-body">
             <div className="table-responsive">

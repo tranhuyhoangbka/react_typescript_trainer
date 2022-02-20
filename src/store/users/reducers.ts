@@ -3,7 +3,10 @@ import {
   LOAD_USERS_PAGING_SUCCESS,
   LOAD_USERS_PAGING_FAILURE,
   UsersActionTypes,
-  UsersState
+  UsersState,
+  ADD_USERS_REQUEST,
+  ADD_USERS_SUCCESS,
+  ADD_USERS_FAILURE
 } from './types';
 
 const initialState: UsersState = {
@@ -29,6 +32,15 @@ const usersReducer = (
         total: action.payload.data.total, pageSize: action.payload.data.page_size}
     }
     case LOAD_USERS_PAGING_FAILURE: {
+      return {...state, loading: false, error: action.payload.error}
+    }
+    case ADD_USERS_REQUEST: {
+      return {...state, loading: true}
+    }
+    case ADD_USERS_SUCCESS: {
+      return {...state, loading: false, error: null}
+    }
+    case ADD_USERS_FAILURE: {
       return {...state, loading: false, error: action.payload.error}
     }
     default:

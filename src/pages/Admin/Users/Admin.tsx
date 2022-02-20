@@ -7,6 +7,7 @@ import { Home } from '../Home/Home';
 import { Users } from './Users';
 import { Switch } from 'react-router';
 import { Route } from 'react-router-dom';
+import { AddUser } from './AddUser';
 
 export const Admin = () => {
   const dispatch = useDispatch();
@@ -27,6 +28,9 @@ export const Admin = () => {
            <Switch>
               <Route path="/users">
                 <Users />
+              </Route>
+              <Route path="/user-add">
+                <AddUser />
               </Route>
               <Route path="/">
                 <Home />
