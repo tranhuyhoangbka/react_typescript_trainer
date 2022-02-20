@@ -4,15 +4,17 @@ import { persistStore, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 import { accountReducer } from "./account/reducer";
 import { setAuthToken } from '../helpers';
+import { usersReducer } from "./users/reducers";
 
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['account']
+  whitelist: ['account', 'users']
 }
 
 const rootReducer = combineReducers({
-  account: accountReducer
+  account: accountReducer,
+  users: usersReducer
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

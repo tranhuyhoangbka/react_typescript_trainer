@@ -1,4 +1,5 @@
 import React, {useState} from 'react'
+import { Link } from 'react-router-dom';
 
 export const LeftMenu = () => {
   const [isToggled, setIsToggled] = useState(false);
@@ -8,12 +9,12 @@ export const LeftMenu = () => {
        {/* Sidebar */}
        <ul className={"navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" + (isToggled ? ' toggled' : '')} id="accordionSidebar">
         {/* Sidebar - Brand */}
-        <a className="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+        <Link className="sidebar-brand d-flex align-items-center justify-content-center" to="/">
           <div className="sidebar-brand-icon rotate-n-15">
             <i className="fas fa-laugh-wink" />
           </div>
           <div className="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
-        </a>
+        </Link>
         {/* Divider */}
         <hr className="sidebar-divider my-0" />
         {/* Nav Item - Dashboard */}
@@ -30,21 +31,21 @@ export const LeftMenu = () => {
         </div>
         {/* Nav Item - Pages Collapse Menu */}
         <li className="nav-item">
-          <a className={"nav-link " + (isComponentShow ? '' : 'collapsed')} href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded={isComponentShow ? 'true' : 'false'} aria-controls="collapseTwo" onClick={()=>setIsComponentShow(!isComponentShow)}>
+          <a className={"nav-link " + (isComponentShow ? '' : 'collapsed')} href="/#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded={isComponentShow ? 'true' : 'false'} aria-controls="collapseTwo" onClick={()=>setIsComponentShow(!isComponentShow)}>
             <i className="fas fa-fw fa-cog" />
-            <span>Components</span>
+            <span>He thong</span>
           </a>
           <div id="collapseTwo" className={"collapse" + (isComponentShow ? ' show' : '')} aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div className="bg-white py-2 collapse-inner rounded">
               <h6 className="collapse-header">Custom Components:</h6>
-              <a className="collapse-item" href="buttons.html">Buttons</a>
+              <Link to="/users" className="collapse-item">Nguoi dung</Link>
               <a className="collapse-item" href="cards.html">Cards</a>
             </div>
           </div>
         </li>
         {/* Nav Item - Utilities Collapse Menu */}
         <li className="nav-item">
-          <a className="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
+          <a className="nav-link collapsed" href="/#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
             <i className="fas fa-fw fa-wrench" />
             <span>Utilities</span>
           </a>
@@ -66,7 +67,7 @@ export const LeftMenu = () => {
         </div>
         {/* Nav Item - Pages Collapse Menu */}
         <li className="nav-item">
-          <a className="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
+          <a className="nav-link collapsed" href="/#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
             <i className="fas fa-fw fa-folder" />
             <span>Pages</span>
           </a>
