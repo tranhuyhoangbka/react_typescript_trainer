@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {LeftMenu} from '../LeftMenu/LeftMenu';
 import { TopBar } from '../TopBar/TopBar';
 import { getCurrentLoginUser } from '../../../store/account/actions';
@@ -8,12 +8,15 @@ import { Users } from './Users';
 import { Switch } from 'react-router';
 import { Route } from 'react-router-dom';
 import { AddUser } from './AddUser';
+import { AppState } from '../../../store';
 
 export const Admin = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getCurrentLoginUser());
   }, [dispatch])
+
+  const alert = useSelector((state: AppState) => state.alert);
 
   return (
     <Fragment>
@@ -25,6 +28,9 @@ export const Admin = () => {
           <TopBar />
           {/* Begin Page Content */}
           <div className="container-fluid">
+            {alert.message && (
+              <div className={`alert ${alert.type}`}>{alert.message}</div>
+            )}
            <Switch>
               <Route path="/users">
                 <Users />

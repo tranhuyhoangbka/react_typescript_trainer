@@ -7,6 +7,8 @@ import { userService } from '../../services';
 // import { history } from '../../helpers';
 import { UrlConstants } from '../../constants';
 import { history } from '../../helpers/history';
+import { AlertActionTypes, ALERT_ERROR, ALERT_SUCCESS } from '../alert/types';
+import { alertError, alertSuccess, clearAlert } from '../alert/actions';
 
 export const loadUsersPaging = (
   keyword: string | null, currentPage: number
@@ -34,11 +36,13 @@ export const loadUsersPaging = (
 export const addUser = (
   user: IAddUserRequest, history: any
 ) => {
-  return async (dispatch: Dispatch<UsersActionTypes>) => {
+  return async (dispatch: Dispatch<UsersActionTypes | AlertActionTypes>) => {
     try {
       dispatch({
         type: ADD_USERS_REQUEST
       });
+
+      dispatch(alertSuccess('Create user successfully!'));
 
       await userService.addUser(user);
       dispatch({
@@ -49,7 +53,12 @@ export const addUser = (
       dispatch({
         type: ADD_USERS_FAILURE,
         payload: {error: error.toString()}
-      })
+      });
+
+      dispatch(alertError('Create user error!'));
     }
+    setTimeout(() => {
+      dispatch(clearAlert());
+    }, 3000);
   }
 }
