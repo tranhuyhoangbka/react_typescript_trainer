@@ -1,12 +1,13 @@
 import {LOAD_USERS_PAGING_REQUEST, 
   LOAD_USERS_PAGING_SUCCESS, 
-  LOAD_USERS_PAGING_FAILURE, UsersActionTypes, IAddUserRequest, ADD_USERS_REQUEST, ADD_USERS_SUCCESS, ADD_USERS_FAILURE, GET_USER_BY_ID_REQUEST, GET_USER_BY_ID_SUCCESS, GET_USER_BY_ID_FAILURE, IUpdateUserRequest, UPDATE_USER_REQUEST, UPDATE_USER_SUCCESS, UPDATE_USER_FAILURE} from './types';
+  LOAD_USERS_PAGING_FAILURE, UsersActionTypes, IAddUserRequest, ADD_USERS_REQUEST, ADD_USERS_SUCCESS, ADD_USERS_FAILURE, GET_USER_BY_ID_REQUEST, GET_USER_BY_ID_SUCCESS, GET_USER_BY_ID_FAILURE, IUpdateUserRequest, UPDATE_USER_REQUEST, UPDATE_USER_SUCCESS, UPDATE_USER_FAILURE, DELETE_USERS_FAILURE, DELETE_USERS_REQUEST, DELETE_USERS_SUCCESS} from './types';
 
-import { Dispatch } from 'redux';
+import { AnyAction, Dispatch } from 'redux';
 import { userService } from '../../services';
 import { UrlConstants } from '../../constants';
 import { AlertActionTypes } from '../alert/types';
 import { alertError, alertSuccess, clearAlert } from '../alert/actions';
+import { ThunkDispatch } from 'redux-thunk';
 
 export const loadUsersPaging = (
   keyword: string | null, currentPage: number
@@ -108,3 +109,29 @@ export const updateUser = (id: string, user: IUpdateUserRequest, history: any) =
     }, 3000);
   }
 }
+
+export const deleteUsers = (userIds: string[]) => {
+  return async (dispatch: ThunkDispatch<any, any, AnyAction>) => {
+    try {
+      dispatch({
+        type: DELETE_USERS_REQUEST,
+      });
+
+      await userService.deleteUsers(userIds);
+
+      dispatch({
+        type: DELETE_USERS_SUCCESS,
+      });
+      dispatch(alertSuccess('xoa user thanh cong'));
+      dispatch(loadUsersPaging('', 1));
+    } catch (error: any) {
+      dispatch({
+        type: DELETE_USERS_FAILURE,
+        payload: { error: error.toString() },
+      });
+    }
+    setTimeout(() => {
+      dispatch(clearAlert());
+    }, 3000);
+  };
+};

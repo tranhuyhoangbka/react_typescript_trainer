@@ -12,7 +12,10 @@ import {
   GET_USER_BY_ID_FAILURE,
   UPDATE_USER_REQUEST,
   UPDATE_USER_SUCCESS,
-  UPDATE_USER_FAILURE
+  UPDATE_USER_FAILURE,
+  DELETE_USERS_SUCCESS,
+  DELETE_USERS_FAILURE,
+  DELETE_USERS_REQUEST
 } from './types';
 
 const initialState: UsersState = {
@@ -85,6 +88,27 @@ const usersReducer = (
       };
     }
     case UPDATE_USER_FAILURE: {
+      return {
+        ...state,
+        loading: false,
+        error: action.payload.error,
+      };
+    }
+
+    case DELETE_USERS_REQUEST: {
+      return {
+        ...state,
+        loading: true,
+      };
+    }
+    case DELETE_USERS_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        error: null,
+      };
+    }
+    case DELETE_USERS_FAILURE: {
       return {
         ...state,
         loading: false,

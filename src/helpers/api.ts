@@ -23,8 +23,8 @@ api.interceptors.response.use(
   (res) => res,
   (err) => {
     if (err.response.status === 401) {
-      store.dispatch(logout());
-      history.push(UrlConstants.LOGIN);
+      // store.dispatch(logout());
+      // history.push(UrlConstants.LOGIN);
     }
     return Promise.reject(err);
   }

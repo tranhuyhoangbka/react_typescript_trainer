@@ -1,8 +1,9 @@
-import React, { ChangeEvent, useEffect, useState } from 'react'
+import React, { ChangeEvent, Fragment, useEffect, useState } from 'react'
+import swal from 'sweetalert';
 import { IUser } from '../../../store/users/types'
 import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from '../../../store';
-import { loadUsersPaging } from '../../../store/users/actions';
+import { deleteUsers, loadUsersPaging } from '../../../store/users/actions';
 import { Pagination } from '../../../components';
 import { Link } from 'react-router-dom';
 import { UrlConstants } from '../../../constants/url-constants';
@@ -14,6 +15,7 @@ export const Users = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchKeyword, setSearchKeyword] = useState('');
   const [showSearch, setShowSearch] = useState(false);
+  const [selectedItems, setSelectedItems] = useState<string[]>([]);
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -35,9 +37,49 @@ export const Users = () => {
     dispatch(loadUsersPaging('', 1));
   };
 
+  const handleSelectRow = (id: string) => {
+    let newSelectedItems = [...selectedItems];
+    selectedItems.indexOf(id) !== -1
+      ? (newSelectedItems = selectedItems.filter((item) => item !== id))
+      : newSelectedItems.push(id);
+
+    setSelectedItems(newSelectedItems);
+  };
+
+  const handleDelete = () => {
+    if (selectedItems) {
+      swal({
+        title: 'Xác nhận',
+        text: 'Bạn có muốn xoá các bản ghi này?',
+        icon: 'warning',
+        buttons: ['Huỷ', 'Xác nhận'],
+        dangerMode: true,
+      }).then((willDelete) => {
+        if (willDelete) {
+          dispatch(deleteUsers(selectedItems));
+          setSelectedItems([]);
+        }
+      });
+    }
+  };
+
   const userElements: JSX.Element[] = users.map((user) => {
     return (
-      <tr key={user.id}>
+      <tr
+        key={`user_${user.id}`}
+        className={`table-row ${
+          selectedItems.indexOf(user.id) !== -1 ? 'selected' : ''
+        }`}
+        onClick={() => handleSelectRow(user.id)}
+      >
+        <td>
+          <input
+            type='checkbox'
+            value={`${user.id}`}
+            onChange={() => handleSelectRow(user.id)}
+            checked={selectedItems.indexOf(user.id) !== -1}
+          />
+        </td>
         <td>{user.id}</td>
         <td>{user.first_name}</td>
         <td>{user.last_name}</td>
@@ -117,12 +159,29 @@ export const Users = () => {
             <Link to={UrlConstants.USER_ADD} className="btn btn-outline-success btn-sm">
               <span className='fa fa-plus'>Them moi</span>
             </Link>
+            {selectedItems.length > 0 && (
+              <Fragment>
+                <button
+                  className='btn btn-outline-danger btn-sm'
+                  onClick={handleDelete}
+                >
+                  <span className='fa fa-trash'></span> Xoá
+                </button>
+                <button
+                  className='btn btn-outline-primary   btn-sm'
+                  onClick={() => setSelectedItems([])}
+                >
+                  <i className='fas fa-check'></i> Bỏ chọn
+                </button>
+              </Fragment>
+            )}
           </div>
           <div className="card-body">
             <div className="table-responsive">
               <table className="table table-bordered" id="dataTable" width="100%" cellSpacing={0}>
                 <thead>
                   <tr>
+                    <th></th>
                     <th>ID</th>
                     <th>First Name</th>
                     <th>Last Name</th>
@@ -133,6 +192,7 @@ export const Users = () => {
                 </thead>
                 <tfoot>
                   <tr>
+                    <th></th>
                     <th>ID</th>
                     <th>First Name</th>
                     <th>Last Name</th>
