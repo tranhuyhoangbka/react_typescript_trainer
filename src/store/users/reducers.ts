@@ -6,7 +6,13 @@ import {
   UsersState,
   ADD_USERS_REQUEST,
   ADD_USERS_SUCCESS,
-  ADD_USERS_FAILURE
+  ADD_USERS_FAILURE,
+  GET_USER_BY_ID_REQUEST,
+  GET_USER_BY_ID_SUCCESS,
+  GET_USER_BY_ID_FAILURE,
+  UPDATE_USER_REQUEST,
+  UPDATE_USER_SUCCESS,
+  UPDATE_USER_FAILURE
 } from './types';
 
 const initialState: UsersState = {
@@ -15,7 +21,8 @@ const initialState: UsersState = {
   total: 0,
   pageSize: 10,
   loading: false,
-  error: null,  
+  error: null,
+  editUser: null
 }
 
 const usersReducer = (
@@ -43,6 +50,48 @@ const usersReducer = (
     case ADD_USERS_FAILURE: {
       return {...state, loading: false, error: action.payload.error}
     }
+    case GET_USER_BY_ID_REQUEST: {
+      return {
+        ...state,
+        loading: true,
+      };
+    }
+    case GET_USER_BY_ID_SUCCESS: {
+      return {
+        ...state,
+        editUser: action.payload.user,
+        loading: false,
+        error: null,
+      };
+    }
+    case GET_USER_BY_ID_FAILURE: {
+      return {
+        ...state,
+        loading: false,
+        error: action.payload.error,
+      };
+    }
+    case UPDATE_USER_REQUEST: {
+      return {
+        ...state,
+        loading: true,
+      };
+    }
+    case UPDATE_USER_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        error: null,
+      };
+    }
+    case UPDATE_USER_FAILURE: {
+      return {
+        ...state,
+        loading: false,
+        error: action.payload.error,
+      };
+    }
+
     default:
       return state;
   }

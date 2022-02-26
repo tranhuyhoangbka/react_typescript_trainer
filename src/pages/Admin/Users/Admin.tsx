@@ -5,16 +5,20 @@ import { TopBar } from '../TopBar/TopBar';
 import { getCurrentLoginUser } from '../../../store/account/actions';
 import { Home } from '../Home/Home';
 import { Users } from './Users';
-import { Switch } from 'react-router';
+import { Switch, useRouteMatch } from 'react-router';
 import { Route } from 'react-router-dom';
 import { AddUser } from './AddUser';
 import { AppState } from '../../../store';
+import { EditUser } from './EditUser';
 
 export const Admin = () => {
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getCurrentLoginUser());
-  }, [dispatch])
+   console.log('ok');
+  // const dispatch = useDispatch();
+  // useEffect(() => {
+  //   dispatch(getCurrentLoginUser());
+  // }, [dispatch])
+
+  let match = useRouteMatch();
 
   const alert = useSelector((state: AppState) => state.alert);
 
@@ -37,6 +41,9 @@ export const Admin = () => {
               </Route>
               <Route path="/user-add">
                 <AddUser />
+              </Route>
+              <Route path="/user-edit/:id">
+                <EditUser />
               </Route>
               <Route path="/">
                 <Home />

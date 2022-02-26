@@ -1,5 +1,5 @@
 import {api, IPagination} from '../helpers';
-import { IAddUserRequest, IUser } from '../store/users/types';
+import { IAddUserRequest, IUpdateUserRequest, IUser, UpdateUserResponse } from '../store/users/types';
 
 const login = async (email: string, password: string): Promise<any> => {
   const body = {email, password};
@@ -34,10 +34,27 @@ const addUser =async (user: IAddUserRequest): Promise<any> => {
   return res;
 }
 
+const updateUser = async (id: string, user: IUpdateUserRequest): Promise<UpdateUserResponse> => {
+  const res = await api.patch(`/users/${id}`, user).then((response) => {
+    return response.data;
+  });
+  return res;
+}
+
+const getUserById = async (id: string) : Promise<IUser> => {
+  const res = await api.get(`/users/${id}`).then((response) => {
+    console.log(response.data);
+    return response.data.data;
+  });
+  return res;
+}
+
 export const userService = {
   login,
   logout,
   getCurrentLoginUser,
   getUsersPaging,
-  addUser
+  addUser,
+  updateUser,
+  getUserById
 };
